@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Carta para mi mamá</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!-- Pantalla inicial -->
+<div class="pantalla-inicial" id="inicio">
+  <h1>📜 Te llegó una carta de tu hija Gema</h1>
+  <div class="sobre" onclick="abrirSobre()">
+    <div class="tapa"></div>
+    <div class="cuerpo"></div>
+  </div>
+
+  <p class="abrir-texto">Haz clic en el sobre para abrir la carta 💌</p>
+</div>
+<!-- Carta -->
+<div class="carta-container" id="carta">
+  <div class="carta">
+    <div class="bordes esquina1"></div>
+    <div class="bordes esquina2"></div>
+    <div class="bordes esquina3"></div>
+    <div class="bordes esquina4"></div>
+
+    <h2>Querida mamá</h2>
+    <p id="texto"></p>
+    <h3>Con amor,<br>Gema 💕</h3>
+  </div>
+
+  <!-- Flores -->
+  <div class="flores"></div>
+</div>
+
+<!-- Música fondo -->
+<audio id="musica" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_946f7f7c9a.mp3" type="audio/mp3">
+</audio>
+
+<audio id="pluma" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_c4e5a2b6a3.mp3" type="audio/mp3">
+</audio>
+<!-- Sonido pluma -->
+<audio id="pluma" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_47f0e4c38c.mp3?filename=writing-112193.mp3" type="audio/mp3">
+</audio>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
