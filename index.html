@@ -1,25 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Carta para Mamá</title>
 
-  <head>
-    <meta charset="UTF-8">
-    <title>Carta para mi mamá</title>
-    <link rel="stylesheet" href="./style.css">
+<style>
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background: #e6d5b8;
+  overflow: hidden;
+}
 
-  </head>
-    
-  <body>
-  <!-- Pantalla inicial -->
+/* Pantalla inicial */
+.pantalla-inicial {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  color: #6b2e2e;
+  margin-bottom: 30px;
+}
+
+.sobre {
+  position: relative;
+  width: 200px;
+  height: 130px;
+  cursor: pointer;
+}
+
+.cuerpo {
+  width: 100%;
+  height: 100%;
+  background: #8b4513;
+  position: absolute;
+  bottom: 0;
+  border-radius: 5px;
+}
+
+.tapa {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #a0522d;
+  clip-path: polygon(0 0, 50% 60%, 100% 0);
+  transform-origin: top;
+  transition: transform 1s ease;
+}
+
+.sobre.abierto .tapa {
+  transform: rotateX(180deg);
+}
+
+.abrir-texto {
+  margin-top: 20px;
+  color: #5a2d0c;
+}
+
+/* Carta */
+.carta-container {
+  display: none;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.carta {
+  width: 70%;
+  max-width: 700px;
+  padding: 60px;
+  background: #fdf6e3;
+  position: relative;
+  box-shadow: 0 0 30px rgba(0,0,0,0.4);
+  border: 3px solid #6b2e2e;
+}
+
+.carta h2 {
+  color: #6b2e2e;
+}
+
+.carta h3 {
+  margin-top: 40px;
+  text-align: right;
+  color: #6b2e2e;
+}
+
+/* Bordes decorativos */
+.bordes {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #6b2e2e;
+  position: absolute;
+}
+
+.esquina1 { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+.esquina2 { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+.esquina3 { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+.esquina4 { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+/* Flores */
+.flores span {
+  position: absolute;
+  top: -10%;
+  font-size: 25px;
+  animation: caer linear infinite;
+}
+
+@keyframes caer {
+  0% { transform: translateY(-10vh) rotate(0deg); }
+  100% { transform: translateY(110vh) rotate(360deg); }
+}
+</style>
+</head>
+
+<body>
+
 <div class="pantalla-inicial" id="inicio">
   <h1>📜 Te llegó una carta de tu hija Gema</h1>
   <div class="sobre" onclick="abrirSobre()">
     <div class="tapa"></div>
     <div class="cuerpo"></div>
   </div>
-
   <p class="abrir-texto">Haz clic en el sobre para abrir la carta 💌</p>
 </div>
-<!-- Carta -->
+
 <div class="carta-container" id="carta">
   <div class="carta">
     <div class="bordes esquina1"></div>
@@ -31,12 +139,9 @@
     <p id="texto"></p>
     <h3>Con amor,<br>Gema 💕</h3>
   </div>
-
-  <!-- Flores -->
   <div class="flores"></div>
 </div>
 
-<!-- Música fondo -->
 <audio id="musica" loop>
   <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_946f7f7c9a.mp3" type="audio/mp3">
 </audio>
@@ -44,12 +149,66 @@
 <audio id="pluma" loop>
   <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_c4e5a2b6a3.mp3" type="audio/mp3">
 </audio>
-<!-- Sonido pluma -->
-<audio id="pluma" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_47f0e4c38c.mp3?filename=writing-112193.mp3" type="audio/mp3">
-</audio>
-    <script  src="./script.js"></script>
 
-  </body>
-  
+<script>
+const textoCompleto = `
+Hola mami!!!
+Hoy quiero tomarme un momento para escribirte algo que a veces ni digo con palabras, pero que siento cada dia con todo mi corazón:
+Te amo infinitamente. 
+Gracias, mamá, por cada sacrifício que hces pero no dices, por cada caricia que me enseñó a ser fuerte sin dejar de ser sensible. 
+Eres mi refugio en la mayoria de momentos difíciles  y mi alegría en muchos dias felices. 
+En ti encontre el amor más puro, la fuerza más valiente y un amor tan incondicional. 
+No hay forma de medir todo lo que has hecho por mi, pero quiero que sepas que lo valoro con todo mi ser. 
+En cada parte de mi hay todo el amor que me diste.
+Quiero que sepas que te admiro por tu gran resistencia en los momentos más difíciles y me siento bien de ser tu hija.
+Gracias por tu consejos aunque a veces me los tome a mal, por tu cuidados, por las cosas que me compras que me regalas por todas la malas cosas que e hecho pero me sigues perdonando.
+Te amo, mamá, con todo mi corazón aunque se me dificulte decirlo o demostrarlo y te celebro y te amo hoy y te seguire amando todos los demás días aunque sean malos o buenos.
+💓FELIZ SAN VALENTIN💓
+;
+
+let i = 0;
+let velocidad = 40;
+
+function abrirSobre() {
+  const sobre = document.querySelector(".sobre");
+  sobre.classList.add("abierto");
+
+  const musica = document.getElementById("musica");
+  musica.volume = 0.5;
+  musica.play();
+
+  setTimeout(() => {
+    document.getElementById("inicio").style.display = "none";
+    document.getElementById("carta").style.display = "flex";
+    escribirTexto();
+  }, 1000);
+}
+
+function escribirTexto() {
+  const pluma = document.getElementById("pluma");
+  pluma.play();
+
+  if (i < textoCompleto.length) {
+    document.getElementById("texto").innerHTML += textoCompleto.charAt(i);
+    i++;
+    crearFlor();
+    setTimeout(escribirTexto, velocidad);
+  } else {
+    pluma.pause();
+  }
+}
+
+function crearFlor() {
+  const floresContainer = document.querySelector(".flores");
+  const flor = document.createElement("span");
+  const tipos = ["🌸","🌷","🌹","🌺","🌼"];
+  flor.innerHTML = tipos[Math.floor(Math.random()*tipos.length)];
+  flor.style.left = Math.random()*100 + "vw";
+  flor.style.animationDuration = (5 + Math.random()*5) + "s";
+  floresContainer.appendChild(flor);
+  setTimeout(()=> flor.remove(),10000);
+}
+</script>
+
+</body>
 </html>
